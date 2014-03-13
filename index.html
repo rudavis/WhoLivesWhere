@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FacebookFriends</title>
+    <link href="stylesheets/application.css" media="all" rel="stylesheet" />
+    <link href="stylesheets/bootstrap-theme.css" media="all" rel="stylesheet" />
+    <link href="stylesheets/bootstrap-theme.min.css" media="all" rel="stylesheet" />
+    <link href="stylesheets/bootstrap.css" media="all" rel="stylesheet" />
+    <link href="stylesheets/bootstrap.min.css" media="all" rel="stylesheet" />
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="javascripts/application.js"></script>
+    <script src="javascripts/bootstrap.js"></script>
+    <script src="javascripts/bootstrap.min.js"></script>
+      <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div id="fb-root"></div>
+<script>
+    window.fbAsyncInit = function() {
+    FB.init({
+        appId      : '262757100561957',
+        status     : true, // check login status
+        cookie     : true, // enable cookies to allow the server to access the session
+        xfbml      : true  // parse XFBML
+    });  
+
+/*
+    FB.Event.subscribe('auth.authResponseChange', function(response) {
+        if (response.status === 'connected') {
+            //testAPI();
+            //executeSearch();
+        } else if (response.status === 'not_authorized') {
+            FB.login(function(response){},{scope:'user_friends,user_location,friends_location'});
+        } else {
+            FB.login(function(response){},{scope:'user_friends,user_location,friends_location'});
+        }
+    });
+*/
+    
+    //When you click the find button
+    $('#find').click(function(e) {
+        FB.getLoginStatus(function(response) {
+            if (response && response.status == 'connected' ) {
+                executeSearch();
+            } else {
+                FB.login(function(response){executeSearch()},{scope:'user_friends,user_location,friends_location'});    
+            }
+            
+        }); // End getLoginStatus
+    });
+}; // END window.fbAsyncInit
+
+  // Load the SDK asynchronously
+  (function(d){
+   var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+   if (d.getElementById(id)) {return;}
+   js = d.createElement('script'); js.id = id; js.async = true;
+   js.src = "//connect.facebook.net/en_US/all.js";
+   ref.parentNode.insertBefore(js, ref);
+  }(document));
+
+/*
+  // Here we run a very simple test of the Graph API after login is successful. 
+  // This testAPI() function is only called in those cases. 
+    function testAPI() {
+        console.log('Welcome!  Fetching your information.... ');
+        FB.api('/me', function(response) {
+            console.log('Good to see you, ' + response.name + '.');
+        });
+    }
+*/ 
+    function executeSearch() {
+        //Empty the table
+        $('#results tbody').empty();    
+        var city = document.getElementById("city").value;
+        var query = "SELECT name,uid, current_location FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND '"+city+"' in current_location";
+        //console.log(query);
+        
+        FB.api(
+        {
+            method: "fql.query",
+            query: query
+        }, 
+        function(response) 
+        {
+            //console.log(response);
+            //console.log(response.length);
+            if (response.length != 0){
+                for (var i = 0; i < response.length; i++) {
+                    //console.log(response[i].name);
+                    //$('#logging').append("<li class='list-group-item'>"+response[i].name+"</li>");
+                    $('#results tbody').append("<tr><td><a href='#'>"+response[i].name+"</a></td><td>Philadelphia, PA</td><td><button type='button' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-envelope'></span>&nbsp;&nbsp;Send Message</button></td></tr>");
+                }
+            } else {
+                //TODO:  Handle No Search Results...
+            }
+        }); //END FB.api()
+    }
+</script>
+
+<!--
+  Below we include the Login Button social plugin. This button uses the JavaScript SDK to
+  present a graphical Login button that triggers the FB.login() function when clicked. -->
+<!-- <fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button> -->
+<div class="container">
+  <style type="text/css">
+	label {padding-right:10px;}
+</style>
+
+<div class="jumbotron">
+	<h1>Who Lives Where?</h1>
+		<p>Visiting a new city?  Lost track of who lives where?  Use the search box below to see which of your Facebook friends live there.</p>
+</div>
+<!-- <p><a class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a></p> -->
+	<form class="form">
+		<!--<div class="form-group">-->
+			<!-- <label for="city">City:</label> -->
+		<div class="row">
+			<div class="col-xs-6">
+				<input type="text" id="city" value="Philadelphia" class="form-control">
+			</div>
+		<!--</div>
+		<div class="form-group">
+		-->
+			<div class="col-xs-2">
+				<a href="#" id="find" class="btn btn-primary btn-block">Find &raquo;</a>
+			</div>
+		<!--</div>-->
+		</div>
+	</form>	
+
+<ul id="logging" class="list-group"></ul>
+
+<table id ="results" class="table table-striped table-condensed">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Location</th>
+			<th>Send Message</th>
+		</tr>
+	</thead>
+	<tbody>
+<!--
+		<tr>
+			<td><a href="#">Dummy 1</a></td>
+			<td>Philadelphia, PA</td>
+			<td>
+				<button type="button" class="btn btn-default btn-sm">
+  				<span class="glyphicon glyphicon-envelope"></span>
+  				Send Message
+  				</button>
+  			</td>
+		</tr>
+		<tr>
+			<td>Dummy 2</td>
+			<td>Philadelphia, PA</td>
+			<td>
+				<button type="button" class="btn btn-default btn-sm">
+  				<span class="glyphicon glyphicon-envelope"></span>
+  				Send Message
+  				</button>
+  			</td>
+		</tr>
+		<tr>
+			<td>Dummy 2</td>
+			<td>Philadelphia, PA</td>
+			<td>
+				<button type="button" class="btn btn-default btn-sm">
+  				<span class="glyphicon glyphicon-envelope"></span>
+  				Send Message
+  				</button>
+  			</td>
+		</tr>
+-->
+	</tbody>
+</table>
+</div> <!-- Container end -->
+    
+    
+    </body>
+</html>
