@@ -32,18 +32,17 @@
         xfbml      : true  // parse XFBML
     });  
 
-/*
+
     FB.Event.subscribe('auth.authResponseChange', function(response) {
         if (response.status === 'connected') {
             //testAPI();
-            //executeSearch();
+            executeSearch();
         } else if (response.status === 'not_authorized') {
             FB.login(function(response){},{scope:'user_friends,user_location,friends_location'});
         } else {
             FB.login(function(response){},{scope:'user_friends,user_location,friends_location'});
         }
     });
-*/
     
     //When you click the find button
     $('#find').click(function(e) {
@@ -51,9 +50,8 @@
             if (response && response.status == 'connected' ) {
                 executeSearch();
             } else {
-                FB.login(function(response){executeSearch()},{scope:'user_friends,user_location,friends_location'});    
+                FB.login(function(response){},{scope:'user_friends,user_location,friends_location'});
             }
-            
         }); // End getLoginStatus
     });
 }; // END window.fbAsyncInit
