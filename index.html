@@ -72,6 +72,8 @@
    js.src = "//connect.facebook.net/en_US/all.js";
    ref.parentNode.insertBefore(js, ref);
   }(document));
+    
+    //  Search Function
     function executeSearch() {
         //Empty the table
         $('#results tbody').empty();    
@@ -90,7 +92,7 @@
             if (response.length != 0){
                 for (var i = 0; i < response.length; i++) {
                     //console.log(response[i].name);
-                    $('#results tbody').append("<tr><td><a href='http://www.facebook.com/"+response[i].uid+"' target='_blank'>"+response[i].name+"</a></td><td>"+  response[i].current_location.name +"</td><td><button type='button' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-envelope'></span>&nbsp;&nbsp;Send Message</button></td></tr>");
+                    $('#results tbody').append("<tr><td><a href='http://www.facebook.com/"+response[i].uid+"' target='_blank'>"+response[i].name+"</a></td><td>"+  response[i].current_location.name +"</td><td><button onClick=sendMessage("+ response[i].uid +") type='button' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-envelope'></span>&nbsp;&nbsp;Send Message</button></td></tr>");
                 }
             } else {
                 // No results
@@ -99,6 +101,20 @@
             }
         }); //END FB.api()
     }
+    
+    // Send Message Function
+    // var u = 6204365;
+    //Jason = 2248458;
+    function sendMessage(u) {
+        var fbSend = {
+        method: 'send',
+        to: "'"+u+"'",
+        link: 'http://www.russthebus.com/WhoLivesWhere'
+        }
+        FB.ui(fbSend, console.log('feed callback'));
+    }
+    
+    
 </script>
 
 <div class="container">
