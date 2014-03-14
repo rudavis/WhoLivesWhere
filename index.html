@@ -78,7 +78,7 @@
         //Empty the table
         $('#results tbody').empty();    
         var city = document.getElementById("city").value;
-        var query = "SELECT name,uid, current_location FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND '"+city+"' in current_location";
+        var query = "SELECT name,uid, current_location FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND '"+ toTitleCase(city) +"' in current_location";
         
         FB.api(
         {
@@ -114,6 +114,13 @@
         FB.ui(fbSend, console.log('feed callback'));
     }
     
+    // Function to take user input and make it camel case
+    //Apparently the FQL is case sensitive.  
+    function toTitleCase(str) {
+        return str.replace(/(?:^|\s)\w/g, function(match) {
+            return match.toUpperCase();
+        });
+    }
     
 </script>
 
