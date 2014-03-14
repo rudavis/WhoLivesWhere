@@ -45,7 +45,9 @@
     $('#find').click(function(e) {
         //First we check if they entered anything
         if (document.getElementById("city").value.length >= 4) {
+            //Remove Error status and message
             $('#city').parent().removeClass('has-error');
+            //TODO:  Remove error message
             FB.getLoginStatus(function(response) {
                 if (response && response.status == 'connected' ) {
                     executeSearch();
@@ -54,7 +56,10 @@
                 }
             }); // End getLoginStatus
         } else {
+            // User didn't input anything
+            //Highlight input field
             $('#city').parent().addClass('has-error');
+            //TODO:  Add Error Message somewhere....
         }
     });
 }; // END window.fbAsyncInit
@@ -67,7 +72,6 @@
    js.src = "//connect.facebook.net/en_US/all.js";
    ref.parentNode.insertBefore(js, ref);
   }(document));
-
     function executeSearch() {
         //Empty the table
         $('#results tbody').empty();    
@@ -82,10 +86,11 @@
         function(response) 
         {
             //console.log(response);
+            //console.log(response[0].current_location.name);
             if (response.length != 0){
                 for (var i = 0; i < response.length; i++) {
                     //console.log(response[i].name);
-                    $('#results tbody').append("<tr><td><a href='#'>"+response[i].name+"</a></td><td>Philadelphia, PA</td><td><button type='button' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-envelope'></span>&nbsp;&nbsp;Send Message</button></td></tr>");
+                    $('#results tbody').append("<tr><td><a href='http://www.facebook.com/"+response[i].uid+"' target='_blank'>"+response[i].name+"</a></td><td>"+  response[i].current_location.name +"</td><td><button type='button' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-envelope'></span>&nbsp;&nbsp;Send Message</button></td></tr>");
                 }
             } else {
                 // No results
