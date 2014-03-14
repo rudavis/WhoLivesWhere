@@ -47,7 +47,7 @@
         if (document.getElementById("city").value.length >= 4) {
             //Remove Error status and message
             $('#city').parent().removeClass('has-error');
-            //TODO:  Remove error message
+            $('#error-label').remove();
             FB.getLoginStatus(function(response) {
                 if (response && response.status == 'connected' ) {
                     executeSearch();
@@ -59,7 +59,7 @@
             // User didn't input anything
             //Highlight input field
             $('#city').parent().addClass('has-error');
-            //TODO:  Add Error Message somewhere....
+            $('#city').after('<label id = "error-label" class="control-label" for="city">&nbsp;&nbsp;Please enter a City.  Must be longer than 4 characters.</label>');
         }
     });
 }; // END window.fbAsyncInit
