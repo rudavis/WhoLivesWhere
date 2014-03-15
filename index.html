@@ -8,7 +8,6 @@
     <link href="stylesheets/application.css" media="all" rel="stylesheet" />
     <link href="stylesheets/bootstrap-theme.min.css" media="all" rel="stylesheet" />
     <link href="stylesheets/bootstrap.min.css" media="all" rel="stylesheet" />
-    <link href="stylesheets/custom.css" media="all" rel="stylesheet" />
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="javascripts/application.js"></script>
     <script src="javascripts/bootstrap.min.js"></script>
@@ -97,8 +96,6 @@
             if (response.length != 0){
                 for (var i = 0; i < response.length; i++) {
                     //console.log(response[i].name);
-                    //$('#results tbody').append("<tr><td><a href='http://www.facebook.com/"+response[i].uid+"' target='_blank'>"+response[i].name+"</a></td><td>"+  response[i].current_location.name +"</td><td><button onClick=sendMessage("+ response[i].uid +") type='button' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-envelope'></span>&nbsp;&nbsp;Send Message</button></td></tr>");
-                    
                     $('#results tbody').append(buildRow(response[i]));
                 }
             } else {
@@ -119,16 +116,7 @@
         link: 'http://www.russthebus.com/WhoLivesWhere'
         }
         FB.ui(fbSend, console.log('feed callback'));
-    }
-    
-    // Function to take user input and make it camel case
-    //Apparently the FQL is case sensitive.  
-    function toTitleCase(str) {
-        return str.replace(/(?:^|\s)\w/g, function(match) {
-            return match.toUpperCase();
-        });
-    }
-    
+    }    
 </script>
 
 <div class="container">
@@ -144,11 +132,6 @@
 			<div class="col-xs-4 form-group">
 				<a href="#" id="find" class="btn btn-primary btn-block">Find &raquo;</a>
 			</div>
-            <!--
-            <div class="col-xs-3 form-group">
-				&nbsp;
-			</div>
-			-->
 		</div>
 	</form>	
 
@@ -161,38 +144,32 @@
 		</tr>
 	</thead>
 	<tbody>
-<!--
-		<tr>
-			<td><a href="#">Dummy 1</a></td>
-			<td>Philadelphia, PA</td>
-			<td>
-				<button type="button" class="btn btn-default btn-sm">
-  				<span class="glyphicon glyphicon-envelope"></span>
-  				Send Message
-  				</button>
-  			</td>
-		</tr>
-		<tr>
-			<td>Dummy 2</td>
-			<td>Philadelphia, PA</td>
-			<td>
-				<button type="button" class="btn btn-default btn-sm">
-  				<span class="glyphicon glyphicon-envelope"></span>
-  				Send Message
-  				</button>
-  			</td>
-		</tr>
-		<tr>
-			<td>Dummy 2</td>
-			<td>Philadelphia, PA</td>
-			<td>
-				<button type="button" class="btn btn-default btn-sm">
-  				<span class="glyphicon glyphicon-envelope"></span>
-  				Send Message
-  				</button>
-  			</td>
-		</tr>
--->
+	<!--
+    <tr>
+        <td>
+            <a href="http://www.facebook.com/1403289" target="_blank">
+                <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/t5.0-1/195548_1403289_5925109_q.jpg">
+                &nbsp;&nbsp;Nita Saetie Taylor
+            </a>
+        </td>
+        <td>Philadelphia, Pennsylvania</td>
+        <td>
+            <button onclick="sendMessage(1403289)" type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;Send Message</button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="http://www.facebook.com/2248458" target="_blank">
+                <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/t5/211907_2248458_326239159_q.jpg">
+                &nbsp;&nbsp;Jason Young
+            </a>
+        </td>
+        <td>Philadelphia, Pennsylvania</td>
+        <td>
+            <button onclick="sendMessage(2248458)" type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;Send Message</button>
+        </td>
+    </tr>
+    -->
 	</tbody>
 </table>
 </div> <!-- Container end -->
