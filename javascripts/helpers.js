@@ -1,11 +1,10 @@
-// Function to take user input and make it camel case
+// Camel Case user Input
 //Apparently the FQL is case sensitive.  
 function toTitleCase(str) {
-    return str.replace(/(?:^|\s)\w/g, function(match) {
+    return str.replace(/(?:^|\s)\w/g, function (match) {
         return match.toUpperCase();
     });
 }
-
 
 /**  Build the Name Cell **/
 /*  Sample 
@@ -16,8 +15,8 @@ function toTitleCase(str) {
         </a>
     </td>
 */
-function buildNameCell(u){
-    return "<td><a href='http://www.facebook.com/"+u.uid+"' target='_blank'><img src='"+ u.pic_square+ "'>&nbsp;&nbsp;" +u.name+"</a></td>";
+function buildNameCell(u) {
+    return "<td><a href='http://www.facebook.com/" + u.uid + "' target='_blank'><img src='" + u.pic_square + "'>&nbsp;&nbsp;" + u.name + "</a></td>";
 }
 
 /** Build the Location Cell */
@@ -35,7 +34,7 @@ function buildLocationCell(u) {
     </td>
 */
 function buildSendMessageCell(u) {
-    return "<td><button onClick=sendMessage("+ u.uid +") type='button' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-envelope'></span>&nbsp;&nbsp;Send Message</button></td>";
+    return "<td><button onClick=sendMessage(" + u.uid + ") type='button' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-envelope'></span>&nbsp;&nbsp;Send Message</button></td>";
 }
 
 /* Putting it all together */

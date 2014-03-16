@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,143 +9,160 @@
     <link href="stylesheets/application.css" media="all" rel="stylesheet" />
     <link href="stylesheets/bootstrap-theme.min.css" media="all" rel="stylesheet" />
     <link href="stylesheets/bootstrap.min.css" media="all" rel="stylesheet" />
+    <link href="stylesheets/custom.css" media="all" rel="stylesheet" />
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="javascripts/application.js"></script>
     <script src="javascripts/bootstrap.min.js"></script>
     <script src="javascripts/helpers.js"></script>
-      <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
+
 <body>
-<div id="fb-root"></div>
-<script>
-    window.fbAsyncInit = function() {
-    FB.init({
-        //DEV
-        //appId      : '1479173378968108',
-        //PROD:
-        appId      : '262757100561957',
-        status     : true, // check login status
-        cookie     : true, // enable cookies to allow the server to access the session
-        xfbml      : true  // parse XFBML
-    });  
+    <div id="fb-root"></div>
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                //DEV
+                //appId      : '1479173378968108',
+                //PROD:
+                appId: '262757100561957',
+                status: true, // check login status
+                cookie: true, // enable cookies to allow the server to access the session
+                xfbml: true // parse XFBML
+            });
 
 
-    FB.Event.subscribe('auth.authResponseChange', function(response) {
-        if (response.status === 'connected') {
-            //testAPI();
-            //executeSearch();
-        } else if (response.status === 'not_authorized') {
-            FB.login(function(response){},{scope:'user_friends,user_location,friends_location'});
-        } else {
-            FB.login(function(response){},{scope:'user_friends,user_location,friends_location'});
-        }
-    });
-    
-    //When you click the find button
-    $('#find').click(function(e) {
-        //First we check if they entered anything
-        if (document.getElementById("city").value.length >= 4) {
-            //Remove Error status and message
-            $('#city').parent().removeClass('has-error');
-            $('#error-label').remove();
-            FB.getLoginStatus(function(response) {
-                if (response && response.status == 'connected' ) {
-                    executeSearch();
+            FB.Event.subscribe('auth.authResponseChange', function(response) {
+                if (response.status === 'connected') {
+                    //testAPI();
+                    //executeSearch();
+                } else if (response.status === 'not_authorized') {
+                    FB.login(function(response) {}, {
+                        scope: 'user_friends,user_location,friends_location'
+                    });
                 } else {
-                    FB.login(function(response){},{scope:'user_friends,user_location,friends_location'});
+                    FB.login(function(response) {}, {
+                        scope: 'user_friends,user_location,friends_location'
+                    });
                 }
-            }); // End getLoginStatus
-        } else {
-            // User didn't input anything
-            //Highlight input field
-            $('#city').parent().addClass('has-error');
-            $('#city').after('<label id = "error-label" class="control-label" for="city">&nbsp;&nbsp;Please enter a City.  Must be longer than 4 characters.</label>');
-        }
-    });
-}; // END window.fbAsyncInit
+            });
 
-  // Load the SDK asynchronously
-  (function(d){
-   var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-   if (d.getElementById(id)) {return;}
-   js = d.createElement('script'); js.id = id; js.async = true;
-   js.src = "//connect.facebook.net/en_US/all.js";
-   ref.parentNode.insertBefore(js, ref);
-  }(document));
-    
-    //  Search Function
-    function executeSearch() {
-        //Empty the table
-        $('#results tbody').empty();    
-        var city = document.getElementById("city").value;
-        var query = "SELECT name,uid, pic_square, current_location FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND '"+ toTitleCase(city) +"' in current_location";
-        
-        FB.api(
-        {
-            method: "fql.query",
-            query: query
-        }, 
-        function(response) 
-        {
-            console.log(response);
-            //console.log(response[0].current_location.name);
-            if (response.length != 0){
-                for (var i = 0; i < response.length; i++) {
-                    //console.log(response[i].name);
-                    $('#results tbody').append(buildRow(response[i]));
+            //When you click the find button
+            $('#find').click(function(e) {
+                //First we check if they entered anything
+                if (document.getElementById("city").value.length >= 4) {
+                    //Remove Error status and message
+                    $('#city').parent().removeClass('has-error');
+                    $('#error-label').remove();
+                    FB.getLoginStatus(function(response) {
+                        if (response && response.status == 'connected') {
+                            executeSearch();
+                        } else {
+                            FB.login(function(response) {}, {
+                                scope: 'user_friends,user_location,friends_location'
+                            });
+                        }
+                    }); // End getLoginStatus
+                } else {
+                    // User didn't input anything
+                    //Highlight input field
+                    $('#city').parent().addClass('has-error');
+                    $('#city').after('<label id = "error-label" class="control-label" for="city">&nbsp;&nbsp;Please enter a City.  Must be longer than 4 characters.</label>');
                 }
-            } else {
-                // No results
-                $('#results tbody').append("<tr><td colspan='3'><p class='text-center text-danger'>No Results Found</p></td></tr>");
+            });
+        }; // END window.fbAsyncInit
 
+         // Load the SDK asynchronously
+        (function(d) {
+            var js, id = 'facebook-jssdk',
+                ref = d.getElementsByTagName('script')[0];
+            if (d.getElementById(id)) {
+                return;
             }
-        }); //END FB.api()
-    }
-    
-    // Send Message Function
-    // var u = 6204365;
-    //Jason = 2248458;
-    function sendMessage(u) {
-        var fbSend = {
-        method: 'send',
-        to: "'"+u+"'",
-        link: 'http://www.russthebus.com/WhoLivesWhere'
+            js = d.createElement('script');
+            js.id = id;
+            js.async = true;
+            js.src = "//connect.facebook.net/en_US/all.js";
+            ref.parentNode.insertBefore(js, ref);
+        }(document));
+
+         //  Search Function
+        function executeSearch() {
+            //Empty the table
+            $('#results tbody').empty();
+            var city = document.getElementById("city").value;
+            var query = "SELECT name,uid, pic_square, current_location FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND '" + toTitleCase(city) + "' in current_location";
+
+            FB.api({
+                    method: "fql.query",
+                    query: query
+                },
+                function(response) {
+                    console.log(response);
+                    //console.log(response[0].current_location.name);
+                    if (response.length != 0) {
+                        for (var i = 0; i < response.length; i++) {
+                            //console.log(response[i].name);
+                            $('#results tbody').append(buildRow(response[i]));
+                        }
+                    } else {
+                        // No results
+                        $('#results tbody').append("<tr><td colspan='3'><p class='text-center text-danger'>No Results Found</p></td></tr>");
+
+                    }
+                }); //END FB.api()
+
+            /*** Send Message Function */
+            // var u = 6204365;
+            // Jason = 2248458;
+            function sendMessage(u) {
+                var fbSend = {
+                    method: 'send',
+                    to: "'" + u + "'",
+                    link: 'http://www.russthebus.com/WhoLivesWhere'
+                }
+                FB.ui(fbSend, function(response) {});
+            }
         }
-        FB.ui(fbSend, console.log('feed callback'));
-    }    
-</script>
+    </script>
+    <div class="container">
+        <div class="jumbotron">
+            <div class="row">
+                <div class="col-md-3">
+                    <img src="images/map.png" alt="Who Lives Where?">
+                </div>
+                <div class="col-xs-9">
+                    <h3>Who Lives Where?</h3>
+                    <p class="lead">Visiting a new city? Lost track of who lives where? Use the search box below to see which of your Facebook friends live there.</p>
+                </div>
+            </div>
+        </div>
+        <form class="form">
+            <div class="row">
+                <div class="col-xs-8 form-group">
+                    <input type="text" id="city" value="Philadelphia" class="form-control">
+                </div>
+                <div class="col-xs-4 form-group">
+                    <a href="#" id="find" class="btn btn-primary btn-block">Find &raquo;</a>
+                </div>
+            </div>
+        </form>
 
-<div class="container">
-<div class="jumbotron">
-	<h1>Who Lives Where?</h1>
-		<p>Visiting a new city?  Lost track of who lives where?  Use the search box below to see which of your Facebook friends live there.</p>
-</div>
-	<form class="form">
-		<div class="row">
-			<div class="col-xs-8 form-group">
-				<input type="text" id="city" value="Philadelphia" class="form-control">
-			</div>
-			<div class="col-xs-4 form-group">
-				<a href="#" id="find" class="btn btn-primary btn-block">Find &raquo;</a>
-			</div>
-		</div>
-	</form>	
-
-<table id ="results" class="table table-striped">
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th>Location</th>
-			<th>Send Message</th>
-		</tr>
-	</thead>
-	<tbody>
-	<!--
+        <table id="results" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>Send Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--
     <tr>
         <td>
             <a href="http://www.facebook.com/1403289" target="_blank">
@@ -170,10 +188,12 @@
         </td>
     </tr>
     -->
-	</tbody>
-</table>
-</div> <!-- Container end -->
-    
-    
-    </body>
+            </tbody>
+        </table>
+    </div>
+    <!-- Container end -->
+
+
+</body>
+
 </html>
