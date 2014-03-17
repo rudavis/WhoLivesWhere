@@ -28,7 +28,7 @@
         window.fbAsyncInit = function() {
             FB.init({
                 //DEV
-                //appId      : '1479173378968108',
+                //appId: '1479173378968108',
                 //PROD:
                 appId: '262757100561957',
                 status: true, // check login status
@@ -116,18 +116,17 @@
 
                     }
                 }); //END FB.api()
-
-            /*** Send Message Function */
-            // var u = 6204365;
-            // Jason = 2248458;
-            function sendMessage(u) {
-                var fbSend = {
-                    method: 'send',
-                    to: "'" + u + "'",
-                    link: 'http://www.russthebus.com/WhoLivesWhere'
-                }
-                FB.ui(fbSend, function(response) {});
+        }
+        /*** Send Message Function */
+         // var u = 6204365;
+         // Jason = 2248458;
+        function sendMessage(u) {
+            var fbSend = {
+                method: 'send',
+                to: "'" + u + "'",
+                link: 'http://www.russthebus.com/WhoLivesWhere'
             }
+            FB.ui(fbSend, function(response) {});
         }
     </script>
     <div class="container">
