@@ -52,8 +52,9 @@
                 }
             });
 
-            //When you click the find button
-            $('#find').click(function(e) {
+            //When you submit the search form
+            $('#searchCity').submit(function(e) {
+                e.preventDefault();
                 //First we check if they entered anything
                 if (document.getElementById("city").value.length >= 4) {
                     //Remove Error status and message
@@ -141,13 +142,13 @@
                 </div>
             </div>
         </div>
-        <form class="form">
+        <form class="form" id="searchCity">
             <div class="row">
                 <div class="col-xs-8 form-group">
                     <input type="text" id="city" value="Philadelphia" class="form-control">
                 </div>
                 <div class="col-xs-4 form-group">
-                    <a href="#" id="find" class="btn btn-primary btn-block">Find &raquo;</a>
+                    <input type="submit" id="find" class="btn btn-primary btn-block" value="Find &raquo;">
                 </div>
             </div>
         </form>
