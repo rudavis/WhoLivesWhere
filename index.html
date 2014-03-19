@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Who Lives Where?</title>
+    <title>Where My Friends App?</title>
     <link href="stylesheets/application.css" media="all" rel="stylesheet" />
     <link href="stylesheets/bootstrap-theme.min.css" media="all" rel="stylesheet" />
     <link href="stylesheets/bootstrap.min.css" media="all" rel="stylesheet" />
@@ -130,6 +130,9 @@
             FB.ui(fbSend, function(response) {});
         }
     </script>
+
+
+
     <div class="container">
         <div class="jumbotron">
             <div class="row">
@@ -144,11 +147,18 @@
         </div>
         <form class="form" id="searchCity">
             <div class="row">
-                <div class="col-xs-8 form-group">
-                    <input type="text" id="city" value="Philadelphia" class="form-control">
+                <div class="col-xs-8">
+                    <div class="input-group">
+                        <span class="input-group-addon">City:</span>
+                        <input type="text" id="city" value="Philadelphia" class="form-control">
+                    </div>
                 </div>
-                <div class="col-xs-4 form-group">
-                    <input type="submit" id="find" class="btn btn-primary btn-block" value="Find &raquo;">
+                <div class="col-xs-4">
+                    <button type="submit" id="find" class="btn btn-primary btn-block">
+                        <img src="images/fb.png" class="pull-left" />
+                        <div class="pull-left">Find &raquo;</div>
+                    </button>
+                    <!-- <input type="submit" id="find" class="btn btn-primary btn-block" value="Find &raquo;"> -->
                 </div>
             </div>
         </form>
